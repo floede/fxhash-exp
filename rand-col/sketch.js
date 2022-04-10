@@ -25,7 +25,7 @@ function setup(params) {
     for (let j = 0; j < 10; j++) {
       let col = [i * 10, j * 10, 100];
       //let col2 = [pseudoRandom(i * 10, 2), pseudoRandom(j * 10, 2), 100];
-      let col2 = [random(i * 10), random(j * 10), 100];
+      let col2 = [i * 10 * fxrand(), j * 10 * fxrand(), 100];
       let sqr1 = new Square(100 * i, 100 * j, col);
       let sqr2 = new Square(50 + 100 * i, 100 * j, col2);
       sqr1.show();
@@ -37,6 +37,7 @@ function setup(params) {
 function draw(params) {
   noLoop();
   // saveCanvas(c, "PRNG", "png");
+  fxpreview();
 }
 
 class Square {
