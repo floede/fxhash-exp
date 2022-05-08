@@ -52,7 +52,7 @@ function draw(params) {
     for (let index = 0; index < grid[j].length; index++) {
       let x = grid[j][index][0];
       let y = padding + grid[j][index][1];
-      let marginAdjust = j % 2 === 0 ? 1 : 2;
+      //let marginAdjust = j % 2 === 0 ? 1 : 2;
       //console.log("MARGIN ADJUST: ", marginAdjust);
       //console.log("Y COORD:", y, "height: ", h);
       if (noOfHex != 1) {
