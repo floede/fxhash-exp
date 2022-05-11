@@ -1,8 +1,8 @@
 let w, h;
 const aspect = 16 / 9;
 const grid = [];
-const listHexSizes = [1, 2, 3, 4, 6, 9, 11, 18, 20];
-const noOfHex = 4; //listHexSizes[Math.floor(fxrand() * listHexSizes.length)];
+const listHexSizes = [1, 2, 4, 5, 10, 20];
+const noOfHex = listHexSizes[Math.floor(fxrand() * listHexSizes.length)];
 
 const margin = false;
 
@@ -11,13 +11,17 @@ let HexSize, HexSide, padding;
 let palettePick;
 
 function setup(params) {
-  h = min(aspect * windowWidth, windowHeight);
+  /* fixed width canvas
+     w = 1000;
+  h = w * aspect; */
 
+  // dynamic width canvas
+  h = min(aspect * windowWidth, windowHeight);
   w = h / aspect;
 
   c = createCanvas(w, h);
 
-  HexSize = w / noOfHex; //Math.ceil(fxrand() * 8) * 50;
+  HexSize = w / noOfHex;
   HexSide = Math.ceil(HexSize / Math.sqrt(3));
 
   let horizontalHexes = Math.floor(h / HexSize);
@@ -32,7 +36,8 @@ function setup(params) {
     background(240);
   }
   colorMode(HSB);
-  palettePick = 10; //Math.floor(colors.length * fxrand());
+  palettePick = Math.floor(colors.length * fxrand());
+
   noStroke();
   for (let j = 0; j < 1 + h / HexSize; j++) {
     let row = [];
@@ -55,11 +60,11 @@ function draw(params) {
       //let marginAdjust = j % 2 === 0 ? 1 : 2;
       //console.log("MARGIN ADJUST: ", marginAdjust);
       //console.log("Y COORD:", y, "height: ", h);
-      if (noOfHex != 1) {
+      /*       if (noOfHex != 1) {
         if ((margin && j === 0) || (margin && j === grid.length - 1)) {
           break;
         }
-      }
+      } */
       push();
       translate(x, y);
       rotate(30 * (PI / 180));
@@ -84,7 +89,8 @@ function draw(params) {
 function pickColorScheme() {
   let colPick, color;
   colPick = colors[palettePick];
-  color = colPick[Math.floor(colPick.length * fxrand())].hsb;
+  let randomColor = Math.floor(colPick.length * fxrand());
+  color = colPick[randomColor].hsb;
   return color;
 }
 
