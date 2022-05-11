@@ -6,5 +6,8 @@ body {
 
 canvas {
   display: block;
-  margin: 0;
+  --h: min(100vh, 100vw);
+  margin: auto;
+  height: var(--h);
+  width: var(--h);
 }
