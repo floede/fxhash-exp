@@ -470,7 +470,7 @@ const colors =
     [
       {
         name: "Medium Blue",
-        hex: "4402d6",
+        hex: "#4402d6",
         rgb: [68, 2, 214],
         cmyk: [68, 99, 0, 16],
         hsb: [259, 99, 84],
@@ -479,7 +479,7 @@ const colors =
       },
       {
         name: "Flame",
-        hex: "d6522c",
+        hex: "#d6522c",
         rgb: [214, 82, 44],
         cmyk: [0, 62, 79, 16],
         hsb: [13, 79, 84],
@@ -488,7 +488,7 @@ const colors =
       },
       {
         name: "Caribbean Green",
-        hex: "0ad699",
+        hex: "#0ad699",
         rgb: [10, 214, 153],
         cmyk: [95, 0, 29, 16],
         hsb: [162, 95, 84],
@@ -497,7 +497,7 @@ const colors =
       },
       {
         name: "Citrine",
-        hex: "d6c901",
+        hex: "#d6c901",
         rgb: [214, 201, 1],
         cmyk: [0, 6, 100, 16],
         hsb: [56, 100, 84],
@@ -555,7 +555,7 @@ const colors =
     [
       {
         name: "Light French Beige",
-        hex: "C1A164",
+        hex: "#C1A164",
         rgb: [193, 161, 100],
         cmyk: [0, 17, 48, 24],
         hsb: [39, 48, 76],
@@ -564,7 +564,7 @@ const colors =
       },
       {
         name: "Dark Liver Horses",
-        hex: "59413F",
+        hex: "#59413F",
         rgb: [89, 65, 63],
         cmyk: [0, 27, 29, 65],
         hsb: [5, 29, 35],
@@ -575,7 +575,7 @@ const colors =
     [
       {
         name: "Dogwood Rose",
-        hex: "CB1B63",
+        hex: "#CB1B63",
         rgb: [203, 27, 99],
         cmyk: [0, 87, 51, 20],
         hsb: [335, 87, 80],
@@ -584,7 +584,7 @@ const colors =
       },
       {
         name: "Dark Cyan",
-        hex: "0D8A8C",
+        hex: "#0D8A8C",
         rgb: [13, 138, 140],
         cmyk: [91, 1, 0, 45],
         hsb: [181, 91, 55],
@@ -593,7 +593,7 @@ const colors =
       },
       {
         name: "Baby Pink",
-        hex: "E0C2C0",
+        hex: "#E0C2C0",
         rgb: [224, 194, 192],
         cmyk: [0, 13, 14, 12],
         hsb: [4, 14, 88],
@@ -602,7 +602,7 @@ const colors =
       },
       {
         name: "Dark Purple",
-        hex: "311D42",
+        hex: "#311D42",
         rgb: [49, 29, 66],
         cmyk: [26, 56, 0, 74],
         hsb: [272, 56, 26],
@@ -613,7 +613,7 @@ const colors =
     [
       {
         name: "Bronze",
-        hex: "D28140",
+        hex: "#D28140",
         rgb: [210, 129, 64],
         cmyk: [0, 39, 70, 18],
         hsb: [27, 70, 82],
@@ -622,7 +622,7 @@ const colors =
       },
       {
         name: "Caput Mortuum",
-        hex: "4F2215",
+        hex: "#4F2215",
         rgb: [79, 34, 21],
         cmyk: [0, 57, 73, 69],
         hsb: [13, 73, 31],
@@ -631,7 +631,7 @@ const colors =
       },
       {
         name: "Cinnabar",
-        hex: "E3492D",
+        hex: "#E3492D",
         rgb: [227, 73, 45],
         cmyk: [0, 68, 80, 11],
         hsb: [9, 80, 89],
@@ -640,7 +640,7 @@ const colors =
       },
       {
         name: "Bone",
-        hex: "E5DDCA",
+        hex: "#E5DDCA",
         rgb: [229, 221, 202],
         cmyk: [0, 3, 12, 10],
         hsb: [42, 12, 90],
@@ -649,7 +649,7 @@ const colors =
       },
       {
         name: "Space Cadet",
-        hex: "292642",
+        hex: "#292642",
         rgb: [41, 38, 66],
         cmyk: [38, 42, 0, 74],
         hsb: [246, 42, 26],
@@ -658,7 +658,7 @@ const colors =
       },
       {
         name: "Light Steel Blue",
-        hex: "AAC3E1",
+        hex: "#AAC3E1",
         rgb: [170, 195, 225],
         cmyk: [24, 13, 0, 12],
         hsb: [213, 24, 88],
@@ -667,7 +667,7 @@ const colors =
       },
       {
         name: "Earth Yellow",
-        hex: "D9AD6C",
+        hex: "#D9AD6C",
         rgb: [217, 173, 108],
         cmyk: [0, 20, 50, 15],
         hsb: [36, 50, 85],
@@ -676,7 +676,7 @@ const colors =
       },
       {
         name: "Copper Crayola",
-        hex: "E48A68",
+        hex: "#E48A68",
         rgb: [228, 138, 104],
         cmyk: [0, 39, 54, 11],
         hsb: [16, 54, 89],
@@ -687,7 +687,7 @@ const colors =
     [
       {
         name: "Chinese Red",
-        hex: "A4341C",
+        hex: "#A4341C",
         rgb: [164, 52, 28],
         cmyk: [0, 68, 83, 36],
         hsb: [11, 83, 64],
