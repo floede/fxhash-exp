@@ -1,10 +1,10 @@
-let centered = Math.random() < 0.75;
-const mappedShape = Math.random() < 0.15;
-const mappedCol = Math.random() < 0.15;
-const occurenceRoll = Math.random() * 100;
-const gravityRoll = Math.random() * 100;
+let centered = fxrand() < 0.75;
+const mappedShape = fxrand() < 0.1;
+const mappedCol = fxrand() < 0.1;
+const occurenceRoll = fxrand() * 100;
+const gravityRoll = fxrand() * 100;
 const cellSizes = [10, 15, 20];
-const cellSize = cellSizes[Math.floor(cellSizes.length * Math.random())];
+const cellSize = cellSizes[Math.floor(cellSizes.length * fxrand())];
 
 let bools = [];
 let paletteNum, palette, occurence, gravity;
@@ -41,13 +41,11 @@ function setup() {
   angleMode(DEGREES);
   colorMode(HSB);
 
-  paletteNum = floor(random(colors.length));
+  paletteNum = floor(fxrand() * colors.length);
   palette = colors[paletteNum];
 
   background(palette[0].hsb);
 
-  // size of the padding between grid and sketch borders
-  //padding = Math.ceil(w / (centered ? 12 : 24));
   padding = Math.ceil(w / 25);
 
   // number of rows and columns of the grid
@@ -85,8 +83,8 @@ function draw() {
 
       push();
       translate(scaledX, scaledY);
-      let rollBig = 100 * random();
-      let rollSmall = 100 * random();
+      let rollBig = 100 * fxrand();
+      let rollSmall = 100 * fxrand();
 
       let showBig, showSmall;
 
@@ -99,8 +97,8 @@ function draw() {
           ? rollSmall > 15 + percentage
           : rollSmall < 5 + percentage;
       } else if (occurence === "random") {
-        showBig = random() > 0.55;
-        showSmall = random() > 0.65;
+        showBig = fxrand() > 0.55;
+        showSmall = fxrand() > 0.65;
       } else {
         showBig = true;
         showSmall = true;
@@ -127,22 +125,13 @@ function draw() {
       }
 
       if (showBig) {
-        rotate(90 * floor(4 * random()));
+        rotate(90 * floor(4 * fxrand()));
         let bigCircle = new BigCircle(BigType, colNum);
       }
 
       if (showSmall) {
         let smallCircle = new SmallCircle(BigType, colNum);
       }
-
-      /*       console.table({
-        "Col Num:": colNum,
-        "Max dist": distances.max,
-        dist: distances.d,
-        "Dist %": (distances.d / distances.max) * 100,
-        "Big roll": rollBig,
-        "Small roll": rollSmall,
-      }); */
 
       pop();
     }
@@ -174,8 +163,8 @@ class BigCircle {
     this.sizeX = ceil(gridSpacingX);
     this.sizeY = ceil(gridSpacingY);
     this.type = type;
-    this.randCol = -1 + ceil(random() * palette.length); //random([1, 2, 3, 4]);
-    let shapeRoll = random();
+    this.randCol = -1 + ceil(fxrand() * palette.length); //random([1, 2, 3, 4]);
+    let shapeRoll = fxrand();
     if (type === 5 || (type === 0 && shapeRoll > 0.5)) {
       fill(palette[colNum || this.randCol].hsb);
       rectMode(CENTER);
@@ -190,7 +179,7 @@ class BigCircle {
         0
       );
     } else if (type === 4 || type === 3 || (type === 0 && shapeRoll <= 0.5)) {
-      if (type === 4 || (type === 0 && random() > 0.5)) {
+      if (type === 4 || (type === 0 && fxrand() > 0.5)) {
         let col = palette[colNum || this.randCol].hsb;
         fill(col);
         stroke(col);
@@ -208,10 +197,10 @@ class BigCircle {
 class SmallCircle {
   constructor(type = 0, colNum = false) {
     this.type = type;
-    this.col = colNum || -1 + ceil(random() * palette.length);
+    this.col = colNum || -1 + ceil(fxrand() * palette.length);
 
     if (type < 3) {
-      if (type === 2 || (type === 0 && random() > 0.5)) {
+      if (type === 2 || (type === 0 && fxrand() > 0.5)) {
         noStroke();
         fill(palette[this.col].hsb);
       } else if (type === 1 || type === 0) {
@@ -257,3 +246,21 @@ function findDistances(distances, x, y, type) {
 
   return distances;
 }
+
+const noiseField = (noiseType, element) => {
+  if (noiseType === "random") {
+    element.loadPixels();
+    for (let x = 0; x < element.width; x++) {
+      for (let y = 0; y < element.height; y++) {
+        let index = (x + y * width) * 4;
+        var r = random(20, 235);
+        element.pixels[index + 0] = r;
+        element.pixels[index + 1] = r;
+        element.pixels[index + 2] = r;
+        element.pixels[index + 3] = fxrand() * 20;
+      }
+    }
+    element.updatePixels();
+  }
+  return element;
+};
