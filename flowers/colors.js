@@ -9,7 +9,6 @@ colors = [
       hsl: [228, 8, 12],
       lab: [11, 1, -3],
     },
-    { hsb: [228, 5, 100] },
     {
       name: "Electric Blue",
       hex: "#00e8fc",
