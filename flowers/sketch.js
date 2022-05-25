@@ -3,7 +3,7 @@ const mappedShape = fxrand() < 0.1;
 const mappedCol = fxrand() < 0.1;
 const occurenceRoll = fxrand() * 100;
 const gravityRoll = fxrand() * 100;
-const cellSizes = [10, 15, 20];
+const cellSizes = [10, 16, 20];
 const cellSize = cellSizes[Math.floor(cellSizes.length * fxrand())];
 
 let bools = [];
@@ -106,9 +106,7 @@ function draw() {
 
       let BigType;
       if (mappedShape) {
-        BigType = floor(
-          map(distances.d, gridSpacingX, distances.max - 2 * padding, 5, 1)
-        );
+        BigType = floor(map(distances.d, gridSpacingX, distances.max, 5, 1)); //  - 2 * padding
       }
 
       if (mappedCol) {
@@ -163,7 +161,7 @@ class BigCircle {
     this.sizeX = ceil(gridSpacingX);
     this.sizeY = ceil(gridSpacingY);
     this.type = type;
-    this.randCol = -1 + ceil(fxrand() * palette.length); //random([1, 2, 3, 4]);
+    this.randCol = 1 + floor(fxrand() * (palette.length - 1));
     let shapeRoll = fxrand();
     if (type === 5 || (type === 0 && shapeRoll > 0.5)) {
       fill(palette[colNum || this.randCol].hsb);
@@ -197,7 +195,11 @@ class BigCircle {
 class SmallCircle {
   constructor(type = 0, colNum = false) {
     this.type = type;
-    this.col = colNum || -1 + ceil(fxrand() * palette.length);
+    if (mappedShape && occurence === "always") {
+      this.col = colNum || 1 + floor(fxrand() * (palette.length - 1));
+    } else {
+      this.col = colNum || floor(fxrand() * palette.length);
+    }
 
     if (type < 3) {
       if (type === 2 || (type === 0 && fxrand() > 0.5)) {
