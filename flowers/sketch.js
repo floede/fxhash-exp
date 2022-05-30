@@ -6,6 +6,9 @@ const gravityRoll = fxrand() * 100;
 const cellSizes = [10, 16, 20];
 const cellSize = cellSizes[Math.floor(cellSizes.length * fxrand())];
 
+const golden = (1 + Math.sqrt(5)) / 2;
+const smallGold = -golden + 2;
+
 let bools = [];
 let paletteNum, palette, occurence, gravity;
 
@@ -145,7 +148,7 @@ function draw() {
   line(0, padding, height, padding);
   line(0, height - padding, width, height - padding); */
   noLoop();
-  //saveCanvas(c, `Flowers - ${Date.now()}`, "png");
+  //saveCanvas(c, `Flowers - ${smallGold} - ${Date.now()}`, "png");
   console.table({
     "Occurence:": occurence,
     "Centered:": centered,
@@ -210,7 +213,9 @@ class SmallCircle {
         stroke(palette[this.col].hsb);
       }
       strokeWeight(0.05 * gridSpacingX);
-      ellipse(0, 0, gridSpacingX / 2, gridSpacingX / 2);
+      // ellipse(0, 0, gridSpacingX / 2, gridSpacingX / 2);
+      // ellipse(0, 0, gridSpacingX / golden, gridSpacingX / golden);
+      ellipse(0, 0, gridSpacingX * smallGold, gridSpacingX * smallGold);
     }
   }
 }
