@@ -1,3 +1,5 @@
+// https://github.com/BenjaminHabert/rand-on/tree/master/_projects/2019_multibrush
+
 let FAST_STROKES = true;
 let STROKES_BY_FRAME = FAST_STROKES ? 5 : 2;
 let INCREMENT_X = 0.9;
