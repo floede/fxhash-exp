@@ -12,8 +12,8 @@ function setup() {
   padding = w / 12;
 
   // number of rows and columns of the grid
-  gridDivsX = 15;
-  gridDivsY = 15;
+  gridDivsX = 6;
+  gridDivsY = 6;
 
   // actual spacing between grid points
   gridSpacingX = (w - padding * 2) / gridDivsX;
