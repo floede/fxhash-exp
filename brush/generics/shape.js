@@ -90,7 +90,7 @@ const maxFilledRatio = (ratio) => (self) => ({
     return self.strokeArea >= ratio * self.area();
   },
 });
-
+ 
 const circleShape = (x, y, radius) => ({
   isValidPoint: (point) => {
     const d = dist(x, y, point.x, point.y);
