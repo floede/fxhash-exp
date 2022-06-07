@@ -17,14 +17,14 @@ function buildCrossedIncrement(incrementX, incrementY) {
   const shapeHeight = map(incrementX, 0.5, 1, minWidth, maxWidth, true);
 
   const shapes = [
-    backgroundShape(colors.background),
+    //backgroundShape(colors.background),
     crossedShape(crossColors, colorRatios, shapeWidth, shapeHeight),
   ];
   return shapes;
 }
 
 function crossedShape(colors, ratios, shapeWidth, shapeHeight) {
-  const length = 100;
+  const length = 10;
   const brush = randomChooser(
     [
       compose(new Brush(colors[0]), drawFixedAngled(PI / 3.0, length)),
@@ -35,12 +35,13 @@ function crossedShape(colors, ratios, shapeWidth, shapeHeight) {
 
   return compose(
     new Shape(brush),
-    rectShape(
+    /*     rectShape(
       width / 2 - shapeWidth / 2,
       height / 2 - shapeHeight / 2,
       shapeWidth,
       shapeHeight
-    ),
+    ), */
+    circleShape(width / 2, height / 2, 50),
     maxFilledRatio(2)
   );
 }

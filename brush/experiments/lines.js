@@ -47,10 +47,10 @@ function backgroundShape(col) {
   const shape = compose(
     new Shape(brush),
     // lineShape(100, 100, 500, 300),
-    strokeInCanvas(20),
-    // rectShape(20, 20, width - 40, height - 40),
-    // circleShape(width / 2, height / 2, 100),
-    // fixedNumberOfStrokes(30),
+    //strokeInCanvas(10),
+    rectShape(20, 20, width - 40, height - 40),
+    // circleShape(width / 2, height / 2, 200),
+    // fixedNumberOfStrokes(1000),
     maxFilledRatio(6.0)
   );
   return shape;

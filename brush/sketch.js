@@ -1,23 +1,23 @@
 // https://github.com/BenjaminHabert/rand-on/tree/master/_projects/2019_multibrush
 
-let FAST_STROKES = true;
+let FAST_STROKES = false;
 let STROKES_BY_FRAME = FAST_STROKES ? 5 : 2;
 let INCREMENT_X = 0.9;
 let INCREMENT_Y = 0.5;
 let SAVE_BASENAME = "crossed";
 let DRAW_ALL = false;
 
-// let EXPERIMENT_FUNCTION = buildCrossedIncrement;
-// let EXPERIMENT_FUNCTION = buildCirclesIncrement;
-let EXPERIMENT_FUNCTION = buildLinesIncrement;
+let EXPERIMENT_FUNCTION = buildCrossedIncrement;
+//let EXPERIMENT_FUNCTION = buildCirclesIncrement;
+// let EXPERIMENT_FUNCTION = buildLinesIncrement;
 
 let shapes;
 let canvas;
 let increments;
 
 function setup() {
-  makeControls("p5sketch");
-  canvas = createCanvas(600, 600).parent("p5sketch");
+  //makeControls("p5sketch");
+  canvas = createCanvas(600, 600); // .parent("p5sketch");
   restart();
 }
 
@@ -62,27 +62,6 @@ function* make_increments(stepsX, stepsY) {
     for (let j = 0; j < stepsY; j++) {
       yield createVector(i / (stepsX - 1), j / (stepsY - 1));
     }
-  }
-}
-
-function saveImage() {
-  const fast = FAST_STROKES ? "fast_" : "";
-  const save_name =
-    SAVE_BASENAME +
-    "_" +
-    fast +
-    INCREMENT_X.toFixed(1) +
-    "_" +
-    INCREMENT_Y.toFixed(1) +
-    "_.png";
-  console.log(save_name);
-  saveCanvas(canvas, save_name);
-}
-
-function keyTyped() {
-  if (key == "s") {
-    console.log("saving to " + save_name);
-    save();
   }
 }
 

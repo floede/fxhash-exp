@@ -1,5 +1,6 @@
 class Brush {
   constructor(col, thickness, end) {
+    console.log("BRUSH CONSTRUCTOR");
     if (col !== undefined) this.col = col;
     if (thickness !== undefined) this.thickness = thickness;
     if (end !== undefined) this.end = end;
