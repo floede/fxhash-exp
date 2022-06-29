@@ -9,7 +9,7 @@ let DRAW_ALL = false;
 
 let EXPERIMENT_FUNCTION = buildCrossedIncrement;
 //let EXPERIMENT_FUNCTION = buildCirclesIncrement;
-// let EXPERIMENT_FUNCTION = buildLinesIncrement;
+//let EXPERIMENT_FUNCTION = buildLinesIncrement;
 
 let shapes;
 let canvas;
@@ -17,7 +17,7 @@ let increments;
 
 function setup() {
   //makeControls("p5sketch");
-  canvas = createCanvas(600, 600); // .parent("p5sketch");
+  canvas = createCanvas(1000, 1000); // .parent("p5sketch");
   restart();
 }
 

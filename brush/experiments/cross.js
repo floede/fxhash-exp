@@ -1,8 +1,8 @@
 function buildCrossedIncrement(incrementX, incrementY) {
   colors = {
     background: color("#444345"),
-    accent: color("#3c546c"),
-    detail: color("#e0e3e8"),
+    accent: color("#ff0000"),
+    detail: color("#ff4444"),
     // #9c9ea3
     // #1c1e20
     // https://www.canva.com/colors/color-palette-generator/
@@ -41,7 +41,7 @@ function crossedShape(colors, ratios, shapeWidth, shapeHeight) {
       shapeWidth,
       shapeHeight
     ), */
-    circleShape(width / 2, height / 2, 50),
+    circleShape(width / 2, height / 2, 70),
     maxFilledRatio(2)
   );
 }
@@ -52,7 +52,7 @@ function backgroundShape(col) {
   const shape = compose(
     new Shape(brush),
     // lineShape(100, 100, 500, 300),
-    strokeInCanvas(20),
+    strokeInCanvas(200),
     // rectShape(20, 20, width - 40, height - 40),
     // circleShape(width / 2, height / 2, 100),
     // fixedNumberOfStrokes(30),
