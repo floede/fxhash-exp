@@ -6,15 +6,25 @@ function drawRing(x, y, diameter, col) {
   let es = diameter;
   let ring = rc.circle(x, y, es, {
     fill: "none",
-    //fillWeight: 2,
     roughness: 1.5,
-    //bowing: 3,
-    //hachureAngle: 60,
-    //hachureGap: 3,
+    strokeWidth: 3,
+    stroke: "#a21acc",
+  });
+  svg.appendChild(ring);
+  let ring2 = rc.circle(x, y, es, {
+    fill: "none",
+    roughness: 1.5,
     strokeWidth: 3,
     stroke: "#E32Cff",
   });
-  svg.appendChild(ring);
+  svg.appendChild(ring2);
+  let ring3 = rc.circle(x, y, es, {
+    fill: "none",
+    roughness: 1.5,
+    strokeWidth: 3,
+    stroke: "#f93fff",
+  });
+  svg.appendChild(ring3);
 }
 
 function drawCircle(x, y, diameter, col) {
