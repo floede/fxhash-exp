@@ -23,7 +23,7 @@ let elmSize;
 const golden = (1 + Math.sqrt(5)) / 2;
 const smallGold = -golden + 2;
 
-const paletteNum = Math.floor(Math.random() * colors.length);
+const paletteNum = 0; // Math.floor(Math.random() * colors.length);
 const palette = colors[paletteNum];
 
 const flowerDecoration = Math.random() > 0.5 ? 2 : 1;
