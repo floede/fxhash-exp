@@ -65,7 +65,7 @@ function setup() {
 
   // c = createCanvas(w, w);
   //angleMode(DEGREES);
-  //colorMode(HSB);
+  //colorMode(hsl);
 
   padding = Math.ceil(w / 25);
 
@@ -84,7 +84,36 @@ function setup() {
 
 function draw() {
   //translate(-width / 2, -height / 2);
-  //background(palette[0].hsb);
+
+  /*
+    name: "Antique White",
+    hex: "#fff3df",
+    rgb: [255, 243, 223],
+    cmyk: [0, 5, 13, 0],
+    hsb: [37, 13, 100],
+    hsl: [37, 100, 94],
+    */
+
+  //background(fff3df);
+  const bg = [37, 100, 94];
+  let rect1 = rc.rectangle(0, 0, width, height, {
+    stroke: "none",
+    roughness: 0.5,
+    strokeWidth: 0.5,
+    hachureAngle: 0, // angle of hachure,
+    hachureGap: 0.5,
+    fill: `hsl(${bg[0]},${bg[1]}%,${bg[2]}%)`,
+  });
+  let rect2 = rc.rectangle(0, 0, width, height, {
+    stroke: "none",
+    roughness: 0.5,
+    strokeWidth: 0.5,
+    hachureAngle: 0, // angle of hachure,
+    hachureGap: 0.5,
+    fill: `hsl(${bg[0]},${bg[1]}%,${bg[2] - 2}%)`,
+  });
+  svg.appendChild(rect1);
+  svg.appendChild(rect2);
   //noStroke();
   for (let x = 0; x < gridDivsX; x++) {
     for (let y = 0; y < gridDivsY; y++) {
@@ -93,8 +122,8 @@ function draw() {
       let distances = { max: 0, d: 0 };
       let colNum = false;
 
-      let scaledX = padding + 0.5 * gridSpacingX + x * gridSpacingX;
-      let scaledY = padding + 0.5 * gridSpacingY + y * gridSpacingY;
+      let scaledX = 25 + padding + 0.5 * gridSpacingX + x * gridSpacingX;
+      let scaledY = 25 + padding + 0.5 * gridSpacingY + y * gridSpacingY;
 
       findDistances(distances, scaledX, scaledY, gravity());
 
@@ -209,12 +238,13 @@ class BigCircle {
     this.sizeX = Math.ceil(gridSpacingX);
     this.sizeY = Math.ceil(gridSpacingY);
     this.type = type;
-    this.randCol = 1 + Math.floor(Math.random() * (palette.length - 1));
+    this.randCol = Math.floor(Math.random() * (palette.length - 1));
     let shapeRoll = Math.random();
+    let angle = Math.random() * 90 - 45;
     let circleSize = this.sizeX - 0.05 * this.sizeX;
     if (type === 5 || (type === 0 && shapeRoll > 0.5)) {
-      drawPetal(x, y, "#000", rotation);
-      /*       fill(palette[colNum || this.randCol].hsb);
+      drawPetal(x, y, palette[colNum || this.randCol].hsl, rotation, angle);
+      /*       fill(palette[colNum || this.randCol].hsl);
       rectMode(CENTER);
       rect(
         0,
@@ -228,14 +258,14 @@ class BigCircle {
       ); */
     } else if (type === 4 || type === 3 || (type === 0 && shapeRoll <= 0.5)) {
       if (type === 4 || (type === 0 && Math.random() > 0.5)) {
-        let col = palette[colNum || this.randCol].hsb;
+        let col = palette[colNum || this.randCol].hsl;
         //fill(col);
         //stroke(col);
-        drawCircle(x, y, circleSize, col);
+        drawCircle(x, y, circleSize, col, angle);
       } else if (type === 3 || type === 0) {
-        let col = palette[colNum || this.randCol].hsb;
+        let col = palette[colNum || this.randCol].hsl;
         //noFill();
-        //stroke(palette[colNum || this.randCol].hsb);
+        //stroke(palette[colNum || this.randCol].hsl);
         drawRing(x, y, circleSize, col);
       }
       //strokeWeight(0.05 * this.sizeX);
@@ -248,6 +278,7 @@ class SmallCircle {
   constructor(type = 0, colNum = false, x, y) {
     this.type = type;
     let circleSize = gridSpacingX / golden;
+    let angle = Math.random() * 90 - 45;
     if (mappedShape && occurence === "always") {
       this.col = colNum || 1 + Math.floor(Math.random() * (palette.length - 1));
     } else {
@@ -257,12 +288,12 @@ class SmallCircle {
     if (type < 3) {
       if (type === 2 || (type === 0 && Math.random() > 0.5)) {
         //noStroke();
-        //fill(palette[this.col].hsb);
-        drawCircle(x, y, circleSize, this.col);
+        //fill(palette[this.col].hsl);
+        drawCircle(x, y, circleSize, palette[this.col].hsl, angle);
       } else if (type === 1 || type === 0) {
         //noFill();
-        //stroke(palette[this.col].hsb);
-        drawRing(x, y, circleSize, this.col);
+        //stroke(palette[this.col].hsl);
+        drawRing(x, y, circleSize, palette[this.col].hsl, angle);
       }
       ///strokeWeight(0.05 * gridSpacingX);
       // ellipse(0, 0, gridSpacingX / 2, gridSpacingX / 2);

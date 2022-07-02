@@ -2,14 +2,14 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background: #ccc;
+  background: #141414;
 }
 
 #svg {
   display: block;
   --h: min(100vh, 100vw);
   margin: auto;
-  height: var(--h);
-  width: var(--h);
-  background-color: rgb(255, 255, 241);
+/* height: var(--h);
+  width: var(--h);  */ 
+  background-color: #fff3df;
 }
