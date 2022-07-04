@@ -27,7 +27,7 @@ const paletteNum = 0; // Math.floor(Math.random() * colors.length);
 const palette = colors[paletteNum];
 
 const flowerDecoration = Math.random() > 0.5 ? 2 : 1;
-const petalOrientation = Math.random() > 0.5 ? 0 : 180;
+const petalOrientation = 0; // Math.random() > 0.5 ? 0 : 180;
 
 const gravity = function () {
   if (gravityRoll < 30) {
@@ -96,6 +96,12 @@ function draw() {
 
   //background(fff3df);
   const bg = [37, 100, 94];
+  let rectBG = rc.rectangle(0, 0, width, height, {
+    stroke: "none",
+    roughness: 0,
+    fillStyle: "solid",
+    fill: `hsl(${bg[0]},${bg[1]}%,${bg[2] + 2}%)`,
+  });
   let rect1 = rc.rectangle(0, 0, width, height, {
     stroke: "none",
     roughness: 0.5,
@@ -112,6 +118,7 @@ function draw() {
     hachureGap: 0.5,
     fill: `hsl(${bg[0]},${bg[1]}%,${bg[2] - 2}%)`,
   });
+  svg.appendChild(rectBG);
   svg.appendChild(rect1);
   svg.appendChild(rect2);
   //noStroke();
