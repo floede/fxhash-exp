@@ -1,5 +1,5 @@
 let w, h;
-const aspect = 16 / 9;
+const aspect = 1 / 1; //16 / 9;
 const grid = [];
 const noOfLines = 20;
 
@@ -26,7 +26,7 @@ function setup(params) {
 
   LineWidth = w / noOfLines;
 
-  background(20);
+  background(40);
 
   colorMode(HSB);
 
@@ -45,6 +45,7 @@ function draw(params) {
     pop();
   }
   shader(lineShader);
+  lineShader.setUniform("u_resolution", [width, height]);
   rect(0, 0, width, height);
   noLoop();
   //saveCanvas(c, `Gambit - Color: ${palettePick} - Hex: ${HexSize}`, "png");
