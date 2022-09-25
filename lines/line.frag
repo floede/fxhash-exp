@@ -11,9 +11,9 @@ float stroke(float x, float s, float w){
 //GLOBAL_END
 
 void main() {
-    vec3 color = vec3(0.);
+    vec3 color = vec3(0.0, 0.0, 0.0);
     vec2 st = gl_FragCoord.xy/u_resolution;
-    st = (st-.5)*1.1912+.5;
+    st = (st-.5)*0.5+.5;
     
     if (u_resolution.y > u_resolution.x ) {
         st.y *= u_resolution.y/u_resolution.x;
@@ -25,5 +25,5 @@ void main() {
     //START
     color += stroke(st.x, .5, .15);
     //END
-    gl_FragColor = vec4(color,1.);
+    gl_FragColor = vec4(color,1.0);
 }
