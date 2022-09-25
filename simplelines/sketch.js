@@ -8,35 +8,47 @@ const format = "wide"; //Math.random() > 0.5 ? "wide" : "high";
 const referenceSize = format === "wide" ? 1000 : 500;
 const aspect = format === "wide" ? 2 / 1 : 1 / 2;
 const golden = (1 + Math.sqrt(5)) / 2;
-const noOfLines = format === "wide" ? 40 : 20;
+const showMargin = true;
+let shapeMargin = true;
+const noOfLines = format === "wide" ? 40 : 20 - (showMargin ? 2 : 0);
 let lineWidth;
 let lineFills = [];
 let shapes;
+let margin = 0; // = true;
 
-const palette = colors[3];
-const mappedCol = false;
+// Weighted traits
+let allowSameColor;
+const sameColRoll = random;
+
+if (sameColRoll < 0.5) {
+  allowSameColor = false;
+} else {
+  allowSameColor = true;
+}
+
+const palette = colors[15];
+let mappedCol = false;
 
 function setup() {
   setDimensions();
   pixelDensity(1);
   console.log("aspect w h: ", aspect, w, h);
 
+  margin = 25 * windowScale;
+
   c = createCanvas(w, h);
-  //layerSquares = createGraphics(w, h);
   angleMode(DEGREES);
   colorMode(HSB);
-  //layerSquares.colorMode(HSB);
-  background(100, 0, 100, 0);
-  filter(BLUR, 5);
-  //noFill();
-  //noStroke();
-  stroke(100);
-  if (format === "wide") {
-    lineFills.push(new LineFill(0, height / 2, palette));
-    lineFills.push(new LineFill(height / 2, height, palette));
 
-    lineFills.push(new LineFill(0, height, palette));
-    lineFills.push(new LineFill(0, height, palette));
+  noFill();
+  noStroke();
+
+  if (format === "wide") {
+    lineFills.push(new LineFill(margin, height / 2, palette, true));
+    lineFills.push(new LineFill(height / 2, height - margin, palette, true));
+
+    lineFills.push(new LineFill(0, height, palette, false, true));
+    lineFills.push(new LineFill(0, height, palette, false, true));
   } else {
     lineFills.push(new LineFill(0, height / 4, palette));
     lineFills.push(new LineFill(height / 4, (3 / 4) * height, palette));
@@ -49,20 +61,21 @@ function setup() {
   lineFills.forEach((fill) => {
     fill.setColors();
   });
-  shapes = "diamond"; //random(["diamond", "round", "ellipse", "square"]);
+  shapes = "diamond"; //random(["diamond", "round", "ellipse", "square", "sine"]);
 }
 
 function draw(params) {
+  margin = 25 * windowScale;
   lineWidth = 25 * windowScale; // w / noOfLines;
   if (format === "wide") {
     lineFills[0].h = height / 2;
     lineFills[1].y = height / 2;
-    lineFills[1].h = height;
+    lineFills[1].h = height - margin;
     lineFills[2].h = height;
     lineFills[3].h = height;
 
-    lineFills[0].show();
-    lineFills[1].show();
+    lineFills[0].show(true);
+    lineFills[1].show(true);
   } else {
     lineFills[0].h = height / 4;
     lineFills[1].y = height / 4;
@@ -80,9 +93,12 @@ function draw(params) {
   fill(100, 0);
 
   if (format === "wide") {
+    let shapeW = width / 2 - (shapeMargin ? margin : 0);
+    let shapeH = height - 2 * (shapeMargin ? margin : 0);
     push();
-    fill(100);
-    let firstShape = getShape(shapes, 0, 0, width / 2, height);
+    //fill(100);
+
+    let firstShape = getShape(shapes, 0 + margin, 0 + margin, shapeW, shapeH);
     firstShape.show();
 
     drawingContext.clip();
@@ -90,8 +106,8 @@ function draw(params) {
     pop();
 
     push();
-    fill(100);
-    let secondShape = getShape(shapes, width / 2, 0, width / 2, height);
+    //fill(100);
+    let secondShape = getShape(shapes, width / 2, 0 + margin, shapeW, shapeH);
     secondShape.show();
 
     drawingContext.clip();
@@ -115,34 +131,72 @@ function draw(params) {
     lineFills[4].show();
     pop();
   }
-
+  // filter(BLUR, 1);
   noLoop();
 }
 
 class LineFill {
-  constructor(y, h, palette) {
-    //this.x = x;
+  constructor(y, h, palette, inverse = false, forShape = false) {
+    // this.x = x;
     this.y = y;
-    //this.w = w;
+    // this.w = w;
     this.h = h;
+    // console.log("H : ", h, " - ", this.h, this);
     this.palette = palette;
     this.lineCols = [];
+    this.inverse = inverse;
+    this.forShape = forShape;
   }
   setColors() {
+    let prevCol;
+    let colOrder = this.inverse ? palette.length - 1 : 0;
     for (let index = 0; index < noOfLines; index++) {
-      !mappedCol
-        ? (this.lineCols[index] =
-            palette[Math.floor(fxrand() * palette.length)].hsb)
-        : (this.lineCols[index] = (getMapColor(x), 100, 100));
+      if (mappedCol) {
+        this.lineCols[index] = [getMapColor(index, this.inverse), 100, 100];
+      } else if (false) {
+        if (this.inverse) {
+          if (colOrder < 0) {
+            colOrder = palette.length - 1;
+          }
+          this.lineCols[index] = palette[colOrder].hsb;
+          colOrder--;
+        } else {
+          if (colOrder > palette.length - 1) {
+            colOrder = 0;
+          }
+          this.lineCols[index] = palette[colOrder].hsb;
+          colOrder++;
+        }
+      } else {
+        let pickedCol;
+        if (allowSameColor || index === 0) {
+          pickedCol = palette[Math.floor(fxrand() * palette.length)].hsb;
+        } else {
+          let tempArr = palette.filter((c) => c.hsb !== prevCol);
+          pickedCol = tempArr[Math.floor(fxrand() * tempArr.length)].hsb;
+        }
+        this.lineCols[index] = pickedCol;
+        prevCol = pickedCol;
+      }
     }
   }
-  show() {
+  show(drawMargin = false) {
     let x;
-    for (let index = 0; index < noOfLines; index++) {
-      x = index * lineWidth + lineWidth / 2;
+    let tempMargin = drawMargin ? margin : 0;
+    console.log("MARGIN: ", tempMargin);
+    for (
+      let index = 0;
+      index < noOfLines - (this.forShape && !shapeMargin ? 0 : 2);
+      index++
+    ) {
+      x =
+        index * lineWidth +
+        lineWidth / 2 +
+        (this.forShape && !shapeMargin ? 0 : margin);
       strokeCap(SQUARE);
       strokeWeight(lineWidth);
       stroke(this.lineCols[index]);
+      //console.log(x, this.y, x, this.h, this);
       line(x, this.y, x, this.h);
       //stroke(100);
       //strokeWeight(5 * windowScale);
@@ -161,6 +215,7 @@ class Diamond {
   }
 
   show() {
+    noStroke();
     beginShape();
     vertex(this.x, this.h / 2 + this.y);
     vertex(this.x + this.w / 2, this.y);
@@ -172,14 +227,15 @@ class Diamond {
 
 class Round {
   constructor(x, y, w, h) {
-    this.x = x;
-    this.y = y;
-    this.w = w;
-    this.h = h;
+    this.x = x + (1 / 2) * w;
+    this.y = y + (1 / 2) * h;
+    this.w = w - 4 * lineWidth;
+    this.h = h - 4 * lineWidth;
   }
 
   show() {
-    ellipseMode(CORNER);
+    noStroke();
+    ellipseMode(CENTER);
     ellipse(this.x, this.y, this.w, this.h);
   }
 }
@@ -192,11 +248,12 @@ class SuperEllipse {
     this.h = h;
     this.n = 2.5;
     this.a = this.w / 2;
-    this.b = this.h / 2;
+    this.b = this.h / 2.38196601125;
   }
   show() {
     push();
     translate(this.x + this.w / 2, this.y + this.h / 2);
+    noStroke();
     beginShape();
     for (let t = 0; t <= 360; t += 5) {
       let x = pow(abs(cos(t)), 2 / this.n) * this.a * sgn(cos(t));
@@ -217,6 +274,7 @@ class Square {
   }
 
   show() {
+    noStroke();
     rectMode(CENTER);
     rect(
       this.x + this.w / 2,
@@ -224,6 +282,35 @@ class Square {
       this.w - 8 * lineWidth,
       this.h - 8 * lineWidth
     );
+  }
+}
+
+class Sine {
+  constructor(x, y, w, h) {
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+    this.round = 200;
+  }
+
+  show() {
+    noStroke();
+    rectMode(CENTER);
+    push();
+    translate(this.x + this.w / 2, this.y + this.h / 2);
+    rotate(45);
+    rect(
+      0,
+      0,
+      this.w - 6 * lineWidth,
+      this.h - 6 * lineWidth,
+      this.round,
+      0,
+      this.round,
+      0
+    );
+    pop();
   }
 }
 
@@ -247,13 +334,27 @@ function getShape(shape, x, y, w, h) {
       return new SuperEllipse(x, y, w, h);
     case "square":
       return new Square(x, y, w, h);
+    case "sine":
+      return new Sine(x, y, w, h);
     default:
       break;
   }
 }
 
-function getMapColor(pos) {
-  return map(pos, 0, width, 0, 360);
+function getMapColor(pos, inverse = false) {
+  return inverse
+    ? map(pos, 0, noOfLines, 360, 0)
+    : map(pos, 0, noOfLines, 0, 360);
+}
+
+function pickUniqueCol(prevCol) {
+  let pickedCol = palette[Math.floor(fxrand() * palette.length)].hsb;
+  //console.log("RETURN COLORS: ", pickedCol, prevCol);
+  if (pickedCol === prevCol) {
+    pickUniqueCol();
+  } else {
+    return pickedCol;
+  }
 }
 
 function windowResized() {
