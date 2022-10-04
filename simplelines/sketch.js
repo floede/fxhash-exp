@@ -26,7 +26,7 @@ if (sameColRoll < 0.5) {
   allowSameColor = true;
 }
 
-const palette = colors[15];
+const palette = colors[19];
 let mappedCol = false;
 
 function setup() {
@@ -34,7 +34,9 @@ function setup() {
   pixelDensity(1);
   console.log("aspect w h: ", aspect, w, h);
 
-  margin = 25 * windowScale;
+  if (showMargin) {
+    margin = 25 * windowScale;
+  }
 
   c = createCanvas(w, h);
   angleMode(DEGREES);
@@ -42,6 +44,8 @@ function setup() {
 
   noFill();
   noStroke();
+
+  console.log("MARGIN: ", margin);
 
   if (format === "wide") {
     lineFills.push(new LineFill(margin, height / 2, palette, true));
@@ -65,7 +69,9 @@ function setup() {
 }
 
 function draw(params) {
-  margin = 25 * windowScale;
+  if (showMargin) {
+    margin = 25 * windowScale;
+  }
   lineWidth = 25 * windowScale; // w / noOfLines;
   if (format === "wide") {
     lineFills[0].h = height / 2;
@@ -74,8 +80,8 @@ function draw(params) {
     lineFills[2].h = height;
     lineFills[3].h = height;
 
-    lineFills[0].show(true);
-    lineFills[1].show(true);
+    lineFills[0].show(showMargin);
+    lineFills[1].show(showMargin);
   } else {
     lineFills[0].h = height / 4;
     lineFills[1].y = height / 4;
@@ -182,13 +188,9 @@ class LineFill {
   }
   show(drawMargin = false) {
     let x;
-    let tempMargin = drawMargin ? margin : 0;
-    console.log("MARGIN: ", tempMargin);
-    for (
-      let index = 0;
-      index < noOfLines - (this.forShape && !shapeMargin ? 0 : 2);
-      index++
-    ) {
+    let lineOffset = this.forShape && shapeMargin ? 2 : 0;
+    console.log("OFFSET: ", lineOffset);
+    for (let index = 0; index < noOfLines - lineOffset; index++) {
       x =
         index * lineWidth +
         lineWidth / 2 +
