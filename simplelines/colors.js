@@ -376,7 +376,7 @@ const colors =
     [
       {
         name: "Maximum Purple",
-        hex: "7e2e84",
+        hex: "#7e2e84",
         rgb: [126, 46, 132],
         cmyk: [5, 65, 0, 48],
         hsb: [296, 65, 52],
@@ -385,7 +385,7 @@ const colors =
       },
       {
         name: "Magenta Pantone",
-        hex: "d14081",
+        hex: "#d14081",
         rgb: [209, 64, 129],
         cmyk: [0, 69, 38, 18],
         hsb: [333, 69, 82],
@@ -394,7 +394,7 @@ const colors =
       },
       {
         name: "Ultra Red",
-        hex: "ef798a",
+        hex: "#ef798a",
         rgb: [239, 121, 138],
         cmyk: [0, 49, 42, 6],
         hsb: [351, 49, 94],
@@ -403,7 +403,7 @@ const colors =
       },
       {
         name: "Cosmic Latte",
-        hex: "f9f5e3",
+        hex: "#f9f5e3",
         rgb: [249, 245, 227],
         cmyk: [0, 2, 9, 2],
         hsb: [49, 9, 98],
@@ -412,7 +412,7 @@ const colors =
       },
       {
         name: "Tea Green",
-        hex: "ccf5ac",
+        hex: "#ccf5ac",
         rgb: [204, 245, 172],
         cmyk: [17, 0, 30, 4],
         hsb: [94, 30, 96],
@@ -554,26 +554,6 @@ const colors =
     ],
     [
       {
-        name: "Light French Beige",
-        hex: "#C1A164",
-        rgb: [193, 161, 100],
-        cmyk: [0, 17, 48, 24],
-        hsb: [39, 48, 76],
-        hsl: [39, 43, 57],
-        lab: [68, 4, 36],
-      },
-      {
-        name: "Dark Liver Horses",
-        hex: "#59413F",
-        rgb: [89, 65, 63],
-        cmyk: [0, 27, 29, 65],
-        hsb: [5, 29, 35],
-        hsl: [5, 17, 30],
-        lab: [30, 10, 5],
-      },
-    ],
-    [
-      {
         name: "Dogwood Rose",
         hex: "#CB1B63",
         rgb: [203, 27, 99],
@@ -704,7 +684,7 @@ const colors =
     [
       {
         name: "International Orange Engineering",
-        hex: "C50806",
+        hex: "#C50806",
         rgb: [197, 8, 6],
         cmyk: [0, 96, 97, 23],
         hsb: [1, 97, 77],
@@ -713,7 +693,7 @@ const colors =
       },
       {
         name: "Navy Blue",
-        hex: "0F026B",
+        hex: "#0F026B",
         rgb: [15, 2, 107],
         cmyk: [86, 98, 0, 58],
         hsb: [247, 98, 42],
@@ -722,7 +702,7 @@ const colors =
       },
       {
         name: "Orange Yellow",
-        hex: "EFBB17",
+        hex: "#EFBB17",
         rgb: [239, 187, 23],
         cmyk: [0, 22, 90, 6],
         hsb: [46, 90, 94],
@@ -731,7 +711,7 @@ const colors =
       },
       {
         name: "White",
-        hex: "FFFFFF",
+        hex: "#FFFFFF",
         rgb: [255, 255, 255],
         cmyk: [0, 0, 0, 0],
         hsb: [0, 0, 100],
@@ -740,7 +720,7 @@ const colors =
       },
       {
         name: "Black",
-        hex: "000000",
+        hex: "#000000",
         rgb: [0, 0, 0],
         cmyk: [0, 0, 0, 100],
         hsb: [0, 0, 0],
@@ -935,7 +915,7 @@ const colors =
     [
       {
         name: "Baby Blue",
-        hex: "83d0f5",
+        hex: "#83d0f5",
         rgb: [131, 208, 245],
         cmyk: [47, 15, 0, 4],
         hsb: [199, 47, 96],
@@ -944,7 +924,7 @@ const colors =
       },
       {
         name: "Indigo Dye",
-        hex: "154a68",
+        hex: "#154a68",
         rgb: [21, 74, 104],
         cmyk: [80, 29, 0, 59],
         hsb: [202, 80, 41],
@@ -953,7 +933,7 @@ const colors =
       },
       {
         name: "Yale Blue",
-        hex: "01499a",
+        hex: "#01499a",
         rgb: [1, 73, 154],
         cmyk: [99, 53, 0, 40],
         hsb: [212, 99, 60],
@@ -962,7 +942,7 @@ const colors =
       },
       {
         name: "Silver",
-        hex: "c6c6c6",
+        hex: "#c6c6c6",
         rgb: [198, 198, 198],
         cmyk: [0, 0, 0, 22],
         hsb: [0, 0, 78],
@@ -971,7 +951,7 @@ const colors =
       },
       {
         name: "White",
-        hex: "ffffff",
+        hex: "#ffffff",
         rgb: [255, 255, 255],
         cmyk: [0, 0, 0, 0],
         hsb: [0, 0, 100],
@@ -980,7 +960,7 @@ const colors =
       },
       {
         name: "Eerie Black",
-        hex: "1d1d1b",
+        hex: "#1d1d1b",
         rgb: [29, 29, 27],
         cmyk: [0, 0, 7, 89],
         hsb: [60, 7, 11],
@@ -989,7 +969,7 @@ const colors =
       },
       {
         name: "Medium Candy Apple Red",
-        hex: "e40234",
+        hex: "#e40234",
         rgb: [228, 2, 52],
         cmyk: [0, 99, 77, 11],
         hsb: [347, 99, 89],
@@ -998,7 +978,7 @@ const colors =
       },
       {
         name: "Kobi",
-        hex: "f29fc5",
+        hex: "#f29fc5",
         rgb: [242, 159, 197],
         cmyk: [0, 34, 19, 5],
         hsb: [333, 34, 95],
@@ -1007,7 +987,7 @@ const colors =
       },
       {
         name: "Carnelian",
-        hex: "bd1d1d",
+        hex: "#bd1d1d",
         rgb: [189, 29, 29],
         cmyk: [0, 85, 85, 26],
         hsb: [0, 85, 74],
@@ -1027,7 +1007,7 @@ const colors =
       },
       {
         name: "White",
-        hex: "ffffff",
+        hex: "#ffffff",
         rgb: [255, 255, 255],
         cmyk: [0, 0, 0, 0],
         hsb: [0, 0, 100],
@@ -1047,7 +1027,7 @@ const colors =
     [
       {
         name: "Barn Red",
-        hex: "741409",
+        hex: "#741409",
         rgb: [116, 20, 9],
         cmyk: [0, 83, 92, 55],
         hsb: [6, 92, 45],
@@ -1056,7 +1036,7 @@ const colors =
       },
       {
         name: "Honey Yellow",
-        hex: "f8aa02",
+        hex: "#f8aa02",
         rgb: [248, 170, 2],
         cmyk: [0, 31, 99, 3],
         hsb: [41, 99, 97],
@@ -1065,7 +1045,7 @@ const colors =
       },
       {
         name: "Middle Blue Green",
-        hex: "89cccc",
+        hex: "#89cccc",
         rgb: [137, 204, 204],
         cmyk: [33, 0, 0, 20],
         hsb: [180, 33, 80],
@@ -1074,7 +1054,7 @@ const colors =
       },
       {
         name: "Silver Chalice",
-        hex: "b2b2b2",
+        hex: "#b2b2b2",
         rgb: [178, 178, 178],
         cmyk: [0, 0, 0, 30],
         hsb: [0, 0, 70],
@@ -1083,7 +1063,7 @@ const colors =
       },
       {
         name: "Phthalo Green",
-        hex: "11301e",
+        hex: "#11301e",
         rgb: [17, 48, 30],
         cmyk: [65, 0, 37, 81],
         hsb: [145, 65, 19],
@@ -1092,7 +1072,7 @@ const colors =
       },
       {
         name: "Mardi Gras",
-        hex: "951b81",
+        hex: "#951b81",
         rgb: [149, 27, 129],
         cmyk: [0, 82, 13, 42],
         hsb: [310, 82, 58],
