@@ -8,12 +8,13 @@ const format = "wide"; //Math.random() > 0.5 ? "wide" : "high";
 const referenceSize = format === "wide" ? 1000 : 500;
 const aspect = format === "wide" ? 2 / 1 : 1 / 2;
 const golden = (1 + Math.sqrt(5)) / 2;
-const showMargin = true;
+const showMargin = random < 0.5 ? true : false;
 let shapeMargin = true;
 const noOfLines = format === "wide" ? 40 : 20 - (showMargin ? 2 : 0);
 let lineWidth;
 let lineFills = [];
 let shapes;
+let marginFactor = 50;
 let margin = 0; // = true;
 
 // Weighted traits
@@ -26,7 +27,32 @@ if (sameColRoll < 0.5) {
   allowSameColor = true;
 }
 
-const palette = colors[19];
+// prettier-ignore
+const colorWeights = [
+  0, 
+  1, 1, 1, 
+  2, 2, 2, 
+  3, 3, 3,
+  4, 4, 4,
+  5, 5, 5,
+  6, 6, 6,
+  7, 7, 7,
+  8, 8, 8,
+  9, 9, 9,
+  10, 10, 10,
+  11, 11, 11,
+  12, 12, 12,
+  13, 
+  14, 14, 14,
+  15, 15, 15,
+  16, 16, 16,
+  17, 17, 17,
+  18, 18, 18
+];
+const colorRoll = colorWeights[Math.floor(random * colorWeights.length)];
+console.log("COL ROLL: ", colorRoll);
+
+const palette = colors[colorRoll]; // 18
 let mappedCol = false;
 
 function setup() {
@@ -35,17 +61,18 @@ function setup() {
   console.log("aspect w h: ", aspect, w, h);
 
   if (showMargin) {
-    margin = 25 * windowScale;
+    margin = marginFactor * windowScale;
   }
 
   c = createCanvas(w, h);
+  pg = createGraphics(w, h);
   angleMode(DEGREES);
   colorMode(HSB);
 
+  background(palette[Math.floor(random() * palette.length)].hsb);
+
   noFill();
   noStroke();
-
-  console.log("MARGIN: ", margin);
 
   if (format === "wide") {
     lineFills.push(new LineFill(margin, height / 2, palette, true));
@@ -65,21 +92,20 @@ function setup() {
   lineFills.forEach((fill) => {
     fill.setColors();
   });
-  shapes = "diamond"; //random(["diamond", "round", "ellipse", "square", "sine"]);
+  shapes = random(["diamond", "round", "ellipse", "square", "sine"]);
 }
 
 function draw(params) {
   if (showMargin) {
-    margin = 25 * windowScale;
+    margin = marginFactor * windowScale;
   }
-  lineWidth = 25 * windowScale; // w / noOfLines;
+  lineWidth = 0.5 * marginFactor * windowScale; // w / noOfLines;
   if (format === "wide") {
     lineFills[0].h = height / 2;
     lineFills[1].y = height / 2;
     lineFills[1].h = height - margin;
     lineFills[2].h = height;
     lineFills[3].h = height;
-
     lineFills[0].show(showMargin);
     lineFills[1].show(showMargin);
   } else {
@@ -138,6 +164,10 @@ function draw(params) {
     pop();
   }
   // filter(BLUR, 1);
+
+  pg.background(100);
+  noiseField("perlin", pg);
+  image(pg, 0, 0);
   noLoop();
 }
 
@@ -188,7 +218,7 @@ class LineFill {
   }
   show(drawMargin = false) {
     let x;
-    let lineOffset = this.forShape && shapeMargin ? 2 : 0;
+    let lineOffset = !this.forShape && drawMargin ? 4 : 0;
     console.log("OFFSET: ", lineOffset);
     for (let index = 0; index < noOfLines - lineOffset; index++) {
       x =
@@ -231,7 +261,7 @@ class Round {
   constructor(x, y, w, h) {
     this.x = x + (1 / 2) * w;
     this.y = y + (1 / 2) * h;
-    this.w = w - 4 * lineWidth;
+    this.w = w - (showMargin ? 6 : 4) * lineWidth;
     this.h = h - 4 * lineWidth;
   }
 
@@ -282,7 +312,7 @@ class Square {
       this.x + this.w / 2,
       this.y + this.h / 2,
       this.w - 8 * lineWidth,
-      this.h - 8 * lineWidth
+      this.h - (showMargin ? 6 : 8) * lineWidth
     );
   }
 }
@@ -305,8 +335,8 @@ class Sine {
     rect(
       0,
       0,
-      this.w - 6 * lineWidth,
-      this.h - 6 * lineWidth,
+      this.w - (showMargin ? 5.5 : 6) * lineWidth,
+      this.h - (showMargin ? 3.5 : 6) * lineWidth,
       this.round,
       0,
       this.round,
