@@ -8,7 +8,8 @@ const format = "wide"; //Math.random() > 0.5 ? "wide" : "high";
 const referenceSize = format === "wide" ? 1000 : 500;
 const aspect = format === "wide" ? 2 / 1 : 1 / 2;
 const golden = (1 + Math.sqrt(5)) / 2;
-const showMargin = random < 0.5 ? true : false;
+const mappedCol = random > 0.95 ? true : false;
+const showMargin = random < 0.5 && !mappedCol ? true : false;
 let shapeMargin = true;
 const noOfLines = format === "wide" ? 40 : 20 - (showMargin ? 2 : 0);
 let lineWidth;
@@ -18,14 +19,7 @@ let marginFactor = 50;
 let margin = 0; // = true;
 
 // Weighted traits
-let allowSameColor;
-const sameColRoll = random;
-
-if (sameColRoll < 0.5) {
-  allowSameColor = false;
-} else {
-  allowSameColor = true;
-}
+let allowSameColor = random < 0.5 ? true : false;
 
 let halfLine = random > 0.85 ? true : false;
 
@@ -55,7 +49,7 @@ const colorRoll = colorWeights[Math.floor(random * colorWeights.length)];
 console.log("COL ROLL: ", colorRoll);
 
 const palette = colors[colorRoll]; // 18
-let mappedCol = false;
+let colorSequence = random > 0.75 ? true : false;
 
 function setup() {
   setDimensions();
@@ -71,7 +65,9 @@ function setup() {
   angleMode(DEGREES);
   colorMode(HSB);
 
-  background(palette[Math.floor(random() * palette.length)].hsb);
+  background(
+    mappedCol ? 100 : palette[Math.floor(random() * palette.length)].hsb
+  );
 
   noFill();
   noStroke();
@@ -167,7 +163,7 @@ function draw(params) {
   }
   // filter(BLUR, 1);
 
-  pg.background(100);
+  pg.background(0);
   noiseField("perlin", pg);
   image(pg, 0, 0);
   noLoop();
@@ -191,7 +187,7 @@ class LineFill {
     for (let index = 0; index < noOfLines; index++) {
       if (mappedCol) {
         this.lineCols[index] = [getMapColor(index, this.inverse), 100, 100];
-      } else if (false) {
+      } else if (colorSequence) {
         if (this.inverse) {
           if (colOrder < 0) {
             colOrder = palette.length - 1;
