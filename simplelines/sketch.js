@@ -27,6 +27,8 @@ if (sameColRoll < 0.5) {
   allowSameColor = true;
 }
 
+let halfLine = random > 0.85 ? true : false;
+
 // prettier-ignore
 const colorWeights = [
   0, 
@@ -226,11 +228,11 @@ class LineFill {
         lineWidth / 2 +
         (this.forShape && !shapeMargin ? 0 : margin);
       strokeCap(SQUARE);
-      strokeWeight(lineWidth);
+      strokeWeight((halfLine ? 0.5 : 1) * lineWidth);
       stroke(this.lineCols[index]);
       //console.log(x, this.y, x, this.h, this);
       line(x, this.y, x, this.h);
-      //stroke(100);
+      //stroke(50);
       //strokeWeight(5 * windowScale);
       //fill(this.lineCols[index]);
       //rect(x, this.y, lineWidth, this.h);
