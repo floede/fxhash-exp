@@ -3,11 +3,11 @@ const degToRad = (degrees) => {
 };
 
 const randCol = () => {
-  return [random(255), random(255), random(255)];
+  return [fxrand(255), fxrand(255), fxrand(255)];
 };
 
 const weightedRandom = (min, max) => {
-  return max / (Math.random() * max + min);
+  return max / (fxrand() * max + min);
 };
 
 const noiseField = (noiseType, element) => {
@@ -35,7 +35,7 @@ const noiseField = (noiseType, element) => {
         element.pixels[index + 0] = r;
         element.pixels[index + 1] = r;
         element.pixels[index + 2] = r;
-        element.pixels[index + 3] = random(20, 40);
+        element.pixels[index + 3] = getRandInRange(20, 40);
 
         xoff += 0.01;
       }
@@ -52,5 +52,5 @@ function keyPressed() {
 }
 
 function getRandInRange(min, max) {
-  return Math.random() * (max - min) + min;
+  return fxrand() * (max - min) + min;
 }
