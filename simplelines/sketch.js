@@ -1,13 +1,17 @@
+// TODO: Adjust Wideline width on redraw
+
 random = fxrand();
 
+const useTexture = true;
 let c;
 let w, h;
 let windowScale;
 let canvasWidth;
+let bgCol;
+let bgLines;
 const format = "wide"; //Math.random() > 0.5 ? "wide" : "high";
 const referenceSize = format === "wide" ? 1000 : 500;
 const aspect = format === "wide" ? 2 / 1 : 1 / 2;
-const golden = (1 + Math.sqrt(5)) / 2;
 const mappedCol = random > 0.95 ? true : false;
 const showMargin = random < 0.5 && !mappedCol ? true : false;
 let shapeMargin = true;
@@ -26,35 +30,37 @@ let halfLine = random > 0.85 ? true : false;
 // prettier-ignore
 const colorWeights = [
   0, 
-  1, 1, 1, 
-  2, 2, 2, 
-  3, 3, 3,
-  4, 4, 4,
-  5, 5, 5,
-  6, 6, 6,
-  7, 7, 7,
-  8, 8, 8,
-  9, 9, 9,
-  10, 10, 10,
-  11, 11, 11,
-  12, 12, 12,
+  1, 1, 1, 1, 
+  2, 2, 2, 2,
+  3, 3, 3,3,
+  4, 4, 4,4,
+  5, 5, 5,5,
+  6, 6, 6,6,
+  7, 7, 7,7,
+  8, 8, 8,8,
+  9, 9, 9,9,
+  10, 10, 10,10,
+  11, 11, 11,11,
+  12, 12, 12,12,
   13, 
-  14, 14, 14,
-  15, 15, 15,
-  16, 16, 16,
-  17, 17, 17,
-  18, 18, 18
+  14, 14, 14,14,
+  15, 15, 15,15,
+  16, 16, 16,16,
+  17, 17,
+  18, 18, 18,18
 ];
 const colorRoll = colorWeights[Math.floor(random * colorWeights.length)];
-console.log("COL ROLL: ", colorRoll);
 
 const palette = colors[colorRoll]; // 18
 let colorSequence = random > 0.75 ? true : false;
 
 function setup() {
+  Math.random = fxrand();
+  randomSeed(fxrand() * 999999);
+  noiseSeed(fxrand() * 999999);
+
   setDimensions();
   pixelDensity(1);
-  console.log("aspect w h: ", aspect, w, h);
 
   if (showMargin) {
     margin = marginFactor * windowScale;
@@ -65,16 +71,28 @@ function setup() {
   angleMode(DEGREES);
   colorMode(HSB);
 
-  background(
-    mappedCol ? 100 : palette[Math.floor(random() * palette.length)].hsb
-  );
+  bgCol = mappedCol ? 100 : palette[Math.floor(random() * palette.length)].hsb;
+  // background(bgCol);
+
+  // constructor(color, width, height, strokeWidth, noOfStrokes)
+  bgLines = new WideLine(bgCol, w, h, windowScale, 2500);
+  push();
+  translate(0, 0);
+  bgLines.drawLines();
+  pop();
 
   noFill();
   noStroke();
 
   if (format === "wide") {
-    lineFills.push(new LineFill(margin, height / 2, palette, true));
-    lineFills.push(new LineFill(height / 2, height - margin, palette, true));
+    // Top half background
+    lineFills.push(
+      new LineFill(margin, height / 2 - (useTexture && margin), palette, true)
+    );
+    // Lower half background
+    lineFills.push(
+      new LineFill(height / 2, height / 2 - margin, palette, true)
+    );
 
     lineFills.push(new LineFill(0, height, palette, false, true));
     lineFills.push(new LineFill(0, height, palette, false, true));
@@ -94,17 +112,25 @@ function setup() {
 }
 
 function draw(params) {
+  push();
+  translate(0, 0);
+  bgLines.height = height;
+  bgLines.drawLines();
+  pop();
   if (showMargin) {
     margin = marginFactor * windowScale;
   }
   lineWidth = 0.5 * marginFactor * windowScale; // w / noOfLines;
   if (format === "wide") {
-    lineFills[0].h = height / 2;
+    lineFills[0].h = height / 2 - (useTexture && margin);
+    lineFills[0].y = margin;
     lineFills[1].y = height / 2;
-    lineFills[1].h = height - margin;
+    lineFills[1].h = (useTexture ? height / 2 : height) - margin; // height / 2 - margin;
     lineFills[2].h = height;
     lineFills[3].h = height;
+    // Top half background
     lineFills[0].show(showMargin);
+    // Lower half background
     lineFills[1].show(showMargin);
   } else {
     lineFills[0].h = height / 4;
@@ -163,9 +189,11 @@ function draw(params) {
   }
   // filter(BLUR, 1);
 
-  pg.background(0);
-  noiseField("perlin", pg);
-  image(pg, 0, 0);
+  if (!useTexture) {
+    pg.background(0);
+    noiseField("perlin", pg);
+    image(pg, 0, 0);
+  }
   noLoop();
 }
 
@@ -177,6 +205,7 @@ class LineFill {
     this.h = h;
     // console.log("H : ", h, " - ", this.h, this);
     this.palette = palette;
+    this.lines = [];
     this.lineCols = [];
     this.inverse = inverse;
     this.forShape = forShape;
@@ -212,22 +241,42 @@ class LineFill {
         this.lineCols[index] = pickedCol;
         prevCol = pickedCol;
       }
+      // Set lines
+      // constructor(color, width, height, strokeWidth, noOfStrokes)
+      this.lines[index] = new WideLine(
+        this.lineCols[index],
+        (halfLine ? 0.5 : 1) * lineWidth,
+        this.h,
+        windowScale,
+        (halfLine ? 0.5 : 1) * 25
+      );
     }
   }
+
   show(drawMargin = false) {
     let x;
     let lineOffset = !this.forShape && drawMargin ? 4 : 0;
-    console.log("OFFSET: ", lineOffset);
     for (let index = 0; index < noOfLines - lineOffset; index++) {
       x =
         index * lineWidth +
         lineWidth / 2 +
         (this.forShape && !shapeMargin ? 0 : margin);
-      strokeCap(SQUARE);
-      strokeWeight((halfLine ? 0.5 : 1) * lineWidth);
-      stroke(this.lineCols[index]);
       //console.log(x, this.y, x, this.h, this);
-      line(x, this.y, x, this.h);
+      strokeCap(SQUARE);
+
+      if (useTexture) {
+        push();
+        translate(x - lineWidth / 2, this.y);
+        this.lines[index].height = this.h;
+        this.lines[index].strokeWidth = lineWidth;
+        this.lines[index].drawLines();
+        pop();
+      } else {
+        strokeWeight((halfLine ? 0.5 : 1) * lineWidth);
+        stroke(this.lineCols[index]);
+        line(x, this.y, x, this.h);
+      }
+
       //stroke(50);
       //strokeWeight(5 * windowScale);
       //fill(this.lineCols[index]);
@@ -344,6 +393,49 @@ class Sine {
   }
 }
 
+class WideLine {
+  constructor(color, width, height, strokeWidth, noOfStrokes) {
+    this.color = color;
+    this.width = width;
+    this.height = height;
+    this.strokeWidth = strokeWidth;
+    this.noOfStrokes = noOfStrokes;
+    this.strokes = [];
+
+    for (let index = 0; index < this.noOfStrokes; index++) {
+      const colOffset = 2;
+      const posOffset = 0;
+      this.strokes[index] = {
+        h: random(-colOffset, colOffset) + this.color[0],
+        s: random(-colOffset, colOffset) + this.color[1],
+        b: random(-colOffset, colOffset) + this.color[2],
+        x1: index * this.strokeWidth,
+        y1: 0,
+        x2: index * this.strokeWidth,
+        y2: this.height,
+      };
+    }
+  }
+  drawLines() {
+    strokeCap(SQUARE);
+    strokeWeight(ceil(this.strokeWidth));
+    for (let index = 0; index < this.noOfStrokes; index++) {
+      this.strokes[index].y2 = this.height;
+      stroke(
+        this.strokes[index].h,
+        this.strokes[index].s,
+        this.strokes[index].b
+      );
+      line(
+        this.strokes[index].x1,
+        this.strokes[index].y1,
+        this.strokes[index].x2,
+        this.strokes[index].y2
+      );
+    }
+  }
+}
+
 function sgn(w) {
   if (w < 0) {
     return -1;
@@ -379,7 +471,6 @@ function getMapColor(pos, inverse = false) {
 
 function pickUniqueCol(prevCol) {
   let pickedCol = palette[Math.floor(fxrand() * palette.length)].hsb;
-  //console.log("RETURN COLORS: ", pickedCol, prevCol);
   if (pickedCol === prevCol) {
     pickUniqueCol();
   } else {
@@ -396,7 +487,10 @@ function setDimensions() {
   if (aspect === 1) {
     w = h = floor(min(windowWidth, windowHeight) / noOfLines) * noOfLines;
   } else if (aspect > 1) {
-    w = floor(min(windowWidth, windowHeight * aspect) / noOfLines) * noOfLines;
+    w = max(
+      1000,
+      floor(min(windowWidth, windowHeight * aspect) / noOfLines) * noOfLines
+    );
     h = w / aspect;
   } else if (aspect < 1) {
     h =
