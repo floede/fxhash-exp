@@ -423,7 +423,7 @@ const colors =
     [
       {
         name: "Citrine",
-        hex: "e0ce00",
+        hex: "#e0ce00",
         rgb: [224, 206, 0],
         cmyk: [0, 8, 100, 12],
         hsb: [55, 100, 88],
@@ -432,7 +432,7 @@ const colors =
       },
       {
         name: "Orange Yellow",
-        hex: "e8b10c",
+        hex: "#e8b10c",
         rgb: [232, 177, 12],
         cmyk: [0, 24, 95, 9],
         hsb: [45, 95, 91],
@@ -441,7 +441,7 @@ const colors =
       },
       {
         name: "Ochre",
-        hex: "d07a00",
+        hex: "#d07a00",
         rgb: [208, 122, 0],
         cmyk: [0, 41, 100, 18],
         hsb: [35, 100, 82],
@@ -450,7 +450,7 @@ const colors =
       },
       {
         name: "Persimmon",
-        hex: "e9570c",
+        hex: "#e9570c",
         rgb: [233, 87, 12],
         cmyk: [0, 63, 95, 9],
         hsb: [20, 95, 91],
@@ -459,7 +459,7 @@ const colors =
       },
       {
         name: "Vermilion",
-        hex: "de2310",
+        hex: "#de2310",
         rgb: [222, 35, 16],
         cmyk: [0, 84, 93, 13],
         hsb: [6, 93, 87],
