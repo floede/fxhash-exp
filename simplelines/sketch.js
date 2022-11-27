@@ -102,7 +102,7 @@ function setup() {
   lineFills.forEach((fill) => {
     fill.setColors();
   });
-  shapes = "hexagon"; //random(["diamond", "round", "ellipse", "square", "sine", "hexagon"]);
+  shapes = random(["diamond", "round", "ellipse", "square", "sine", "hexagon"]);
 }
 
 function draw(params) {
