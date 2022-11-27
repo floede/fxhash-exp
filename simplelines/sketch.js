@@ -1,4 +1,4 @@
-// TODO: Adjust Wideline width on redraw
+// TODO: Differentiate reference size and render size
 
 random = fxrand();
 
@@ -9,7 +9,8 @@ let windowScale;
 let canvasWidth;
 let bgCol;
 let bgLines;
-const format = "wide"; //Math.random() > 0.5 ? "wide" : "high";
+const format = "wide";
+const renderSize = 1040;
 const referenceSize = format === "wide" ? 1000 : 500;
 const aspect = format === "wide" ? 2 / 1 : 1 / 2;
 const mappedCol = random > 0.95 ? true : false;
@@ -75,7 +76,7 @@ function setup() {
   // background(bgCol);
 
   // constructor(color, width, height, strokeWidth, noOfStrokes)
-  bgLines = new WideLine(bgCol, w, h, windowScale, 2500);
+  bgLines = new WideLine(bgCol, w, h, windowScale, w, "background");
   push();
   translate(0, 0);
   bgLines.drawLines();
@@ -96,54 +97,43 @@ function setup() {
 
     lineFills.push(new LineFill(0, height, palette, false, true));
     lineFills.push(new LineFill(0, height, palette, false, true));
-  } else {
-    lineFills.push(new LineFill(0, height / 4, palette));
-    lineFills.push(new LineFill(height / 4, (3 / 4) * height, palette));
-    lineFills.push(new LineFill((3 / 4) * height, height, palette));
-
-    lineFills.push(new LineFill(0, height, palette));
-    lineFills.push(new LineFill(0, height, palette));
   }
 
   lineFills.forEach((fill) => {
     fill.setColors();
   });
-  shapes = random(["diamond", "round", "ellipse", "square", "sine"]);
+  shapes = "hexagon"; //random(["diamond", "round", "ellipse", "square", "sine", "hexagon"]);
 }
 
 function draw(params) {
   push();
   translate(0, 0);
-  bgLines.height = height;
+  bgLines.height = h;
+  bgLines.width = w;
+  bgLines.strokeWidth = windowScale;
   bgLines.drawLines();
   pop();
   if (showMargin) {
     margin = marginFactor * windowScale;
   }
-  lineWidth = 0.5 * marginFactor * windowScale; // w / noOfLines;
+  lineWidth = (referenceSize / noOfLines) * windowScale; // w / noOfLines;
+  console.table({
+    "window scale": windowScale,
+    "margin Factor": marginFactor,
+    lineWidth: lineWidth,
+  });
   if (format === "wide") {
     lineFills[0].h = height / 2 - (useTexture && margin);
     lineFills[0].y = margin;
     lineFills[1].y = height / 2;
-    lineFills[1].h = (useTexture ? height / 2 : height) - margin; // height / 2 - margin;
+    lineFills[1].h = (useTexture ? height / 2 : height) - margin;
+    height / 2 - margin;
     lineFills[2].h = height;
     lineFills[3].h = height;
     // Top half background
     lineFills[0].show(showMargin);
     // Lower half background
     lineFills[1].show(showMargin);
-  } else {
-    lineFills[0].h = height / 4;
-    lineFills[1].y = height / 4;
-    lineFills[1].h = (3 / 4) * height;
-    lineFills[2].y = (3 / 4) * height;
-    lineFills[2].h = height;
-    lineFills[3].h = height;
-    lineFills[4].h = height;
-
-    lineFills[0].show();
-    lineFills[1].show();
-    lineFills[2].show();
   }
   noStroke();
   fill(100, 0);
@@ -164,30 +154,13 @@ function draw(params) {
     push();
     //fill(100);
     let secondShape = getShape(shapes, width / 2, 0 + margin, shapeW, shapeH);
+    console.log("SECOND SHAPE: ", secondShape);
     secondShape.show();
 
     drawingContext.clip();
     lineFills[3].show();
-    pop();
-  } else {
-    push();
-    let firstShape = getShape(shapes, 0, 0, width, height / 2);
-    firstShape.show();
-
-    drawingContext.clip();
-    lineFills[3].show();
-    pop();
-
-    push();
-    fill(100);
-    let secondShape = getShape(shapes, 0, height / 2, width, height / 2);
-    secondShape.show();
-
-    drawingContext.clip();
-    lineFills[4].show();
     pop();
   }
-  // filter(BLUR, 1);
 
   if (!useTexture) {
     pg.background(0);
@@ -248,7 +221,8 @@ class LineFill {
         (halfLine ? 0.5 : 1) * lineWidth,
         this.h,
         windowScale,
-        (halfLine ? 0.5 : 1) * 25
+        (halfLine ? 0.5 : 1) * 25,
+        "Line fill"
       );
     }
   }
@@ -268,7 +242,7 @@ class LineFill {
         push();
         translate(x - lineWidth / 2, this.y);
         this.lines[index].height = this.h;
-        this.lines[index].strokeWidth = lineWidth;
+        this.lines[index].strokeWidth = windowScale;
         this.lines[index].drawLines();
         pop();
       } else {
@@ -392,15 +366,48 @@ class Sine {
     pop();
   }
 }
+class Hexagon {
+  constructor(x, y, w, h) {
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+    this.gs = 0.25 * h;
+  }
+
+  show() {
+    noStroke();
+    rectMode(CENTER);
+    push();
+    translate(this.w / 2, -margin + this.y + this.h / 2);
+    beginShape();
+    vertex(this.x - this.gs, this.y - sqrt(3) * this.gs);
+    vertex(this.x + this.gs, this.y - sqrt(3) * this.gs);
+    vertex(this.x + 2 * this.gs, this.y);
+    vertex(this.x + this.gs, this.y + sqrt(3) * this.gs);
+    vertex(this.x - this.gs, this.y + sqrt(3) * this.gs);
+    vertex(this.x - 2 * this.gs, this.y);
+    endShape(CLOSE);
+    pop();
+  }
+}
 
 class WideLine {
-  constructor(color, width, height, strokeWidth, noOfStrokes) {
+  constructor(
+    color,
+    width,
+    height,
+    strokeWidth,
+    noOfStrokes,
+    context = "not set"
+  ) {
     this.color = color;
     this.width = width;
     this.height = height;
     this.strokeWidth = strokeWidth;
     this.noOfStrokes = noOfStrokes;
     this.strokes = [];
+    this.context = context;
 
     for (let index = 0; index < this.noOfStrokes; index++) {
       const colOffset = 2;
@@ -419,13 +426,16 @@ class WideLine {
   drawLines() {
     strokeCap(SQUARE);
     strokeWeight(ceil(this.strokeWidth));
+    console.log(`DRAW LINES - STROKE WIDTH: ${this.context}`, this.strokeWidth);
     for (let index = 0; index < this.noOfStrokes; index++) {
       this.strokes[index].y2 = this.height;
-      stroke(
-        this.strokes[index].h,
-        this.strokes[index].s,
-        this.strokes[index].b
-      );
+      (this.strokes[index].x1 = index * this.strokeWidth),
+        (this.strokes[index].x2 = index * this.strokeWidth),
+        stroke(
+          this.strokes[index].h,
+          this.strokes[index].s,
+          this.strokes[index].b
+        );
       line(
         this.strokes[index].x1,
         this.strokes[index].y1,
@@ -458,6 +468,8 @@ function getShape(shape, x, y, w, h) {
       return new Square(x, y, w, h);
     case "sine":
       return new Sine(x, y, w, h);
+    case "hexagon":
+      return new Hexagon(x, y, w, h);
     default:
       break;
   }
@@ -488,7 +500,7 @@ function setDimensions() {
     w = h = floor(min(windowWidth, windowHeight) / noOfLines) * noOfLines;
   } else if (aspect > 1) {
     w = max(
-      1000,
+      renderSize,
       floor(min(windowWidth, windowHeight * aspect) / noOfLines) * noOfLines
     );
     h = w / aspect;
