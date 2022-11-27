@@ -117,11 +117,7 @@ function draw(params) {
     margin = marginFactor * windowScale;
   }
   lineWidth = (referenceSize / noOfLines) * windowScale; // w / noOfLines;
-  console.table({
-    "window scale": windowScale,
-    "margin Factor": marginFactor,
-    lineWidth: lineWidth,
-  });
+
   if (format === "wide") {
     lineFills[0].h = height / 2 - (useTexture && margin);
     lineFills[0].y = margin;
@@ -154,7 +150,7 @@ function draw(params) {
     push();
     //fill(100);
     let secondShape = getShape(shapes, width / 2, 0 + margin, shapeW, shapeH);
-    console.log("SECOND SHAPE: ", secondShape);
+
     secondShape.show();
 
     drawingContext.clip();
@@ -176,7 +172,7 @@ class LineFill {
     this.y = y;
     // this.w = w;
     this.h = h;
-    // console.log("H : ", h, " - ", this.h, this);
+
     this.palette = palette;
     this.lines = [];
     this.lineCols = [];
@@ -235,7 +231,7 @@ class LineFill {
         index * lineWidth +
         lineWidth / 2 +
         (this.forShape && !shapeMargin ? 0 : margin);
-      //console.log(x, this.y, x, this.h, this);
+
       strokeCap(SQUARE);
 
       if (useTexture) {
@@ -426,7 +422,7 @@ class WideLine {
   drawLines() {
     strokeCap(SQUARE);
     strokeWeight(ceil(this.strokeWidth));
-    console.log(`DRAW LINES - STROKE WIDTH: ${this.context}`, this.strokeWidth);
+
     for (let index = 0; index < this.noOfStrokes; index++) {
       this.strokes[index].y2 = this.height;
       (this.strokes[index].x1 = index * this.strokeWidth),
