@@ -425,13 +425,13 @@ class WideLine {
 
     for (let index = 0; index < this.noOfStrokes; index++) {
       this.strokes[index].y2 = this.height;
-      (this.strokes[index].x1 = index * this.strokeWidth),
-        (this.strokes[index].x2 = index * this.strokeWidth),
-        stroke(
-          this.strokes[index].h,
-          this.strokes[index].s,
-          this.strokes[index].b
-        );
+      this.strokes[index].x1 = index * this.strokeWidth;
+      this.strokes[index].x2 = index * this.strokeWidth;
+      stroke(
+        this.strokes[index].h,
+        this.strokes[index].s,
+        this.strokes[index].b
+      );
       line(
         this.strokes[index].x1,
         this.strokes[index].y1,
