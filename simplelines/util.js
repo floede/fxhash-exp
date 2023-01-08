@@ -52,5 +52,5 @@ function keyPressed() {
 }
 
 function getRandInRange(min, max) {
-  return Math.random() * (max - min) + min;
+  return fxrand() * (max - min) + min;
 }
