@@ -1,6 +1,6 @@
 random = fxrand();
 
-let c;
+let c, pg;
 let w, h;
 let windowScale;
 let canvasWidth;
@@ -390,6 +390,10 @@ function pickUniqueCol(prevCol) {
 function windowResized() {
   setDimensions();
   resizeCanvas(w, h);
+
+  let newPG = createGraphics(w, h);
+  newPG.image(pg, 0, 0, newPG.width, newPG.height);
+  pg = newPG;
 }
 
 function setDimensions() {
